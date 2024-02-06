@@ -10,6 +10,7 @@ import (
 // NewRouter, uygulama için router'ı oluşturur ve yapılandırır.
 func NewRouter(apiHandler *api.CacheHandler) *mux.Router {
 	r := mux.NewRouter()
+
 	r.HandleFunc("/set", apiHandler.SetHandler).Methods("POST")
 	r.HandleFunc("/get", apiHandler.GetHandler).Methods("GET")
 	// Daha fazla route burada tanımlanabilir.
