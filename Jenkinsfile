@@ -18,14 +18,8 @@ pipeline {
                 script {
                     // Assuming the Dockerfile is in the root of your project
                     sh """
-                    docker run --rm \
-                        -v /var/run/docker.sock:/var/run/docker.sock \
-                        -v $(pwd):/workspace \
-                        gcr.io/kaniko-project/executor:latest \
-                        --context /workspace \
-                        --dockerfile /workspace/Dockerfile \
-                        --destination ${REGISTRY_URL}/${DOCKER_IMAGE}:${IMAGE_TAG}
-                    """
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v \$(pwd):/workspace gcr.io/kaniko-project/executor:latest --context /workspace --dockerfile /workspace/Dockerfile --destination ${REGISTRY_URL}/${DOCKER_IMAGE}:${IMAGE_TAG}
+"""
                 }
             }
         }
