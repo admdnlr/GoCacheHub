@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/admdnlr/GoCacheHub.git'
+                git 'https://github.com/admdnlr/GoCacheHub.git', branch: 'main'
             }
         }
         stage('Build and Push Docker Image') {
