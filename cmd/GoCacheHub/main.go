@@ -57,8 +57,8 @@ func main() {
 	}()
 
 	// HTTP sunucusunu başlat ve router'ı kullan
-	log.Println("Starting server on :8080")
-	if err := http.ListenAndServe(":8080", r); err != nil {
+	log.Println("Starting server on :9090")
+	if err := http.ListenAndServe(":9090", r); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
