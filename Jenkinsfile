@@ -38,7 +38,7 @@ pipeline {
                     // Bu örnekte, deployment.yml dosyanızın içindeki image kısmını güncellemeniz gerekecek.
                     // Ayrıca, git kullanıcı adı ve e-posta adresinizi de konfigüre etmeniz gerekmektedir.
                     sh """
-                      sed -i 's|$REGISTRY_URL/$DOCKER_IMAGE:.*|$REGISTRY_URL/$DOCKER_IMAGE:$IMAGE_TAG|g' kubernetes/deployment.yml
+                      sed -i 's|$REGISTRY_URL/$DOCKER_IMAGE:.*|$REGISTRY_URL/$DOCKER_IMAGE:$IMAGE_TAG|g' ./Deployment-Manifests/gocachehub-deployment.yaml
                       git config user.name 'admdnlr'
                       git config user.email 'ademdnlr60@gmail.com'
                       git commit -am "Update image tag to $IMAGE_TAG"
