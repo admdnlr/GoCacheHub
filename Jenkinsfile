@@ -15,13 +15,15 @@ pipeline {
                 git url: 'https://github.com/admdnlr/GoCacheHub.git', branch: 'main', credentialsId: env.GIT_CREDENTIALS_ID
             }
         }
-        stage('Build and Push Docker Image') {
+         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Assuming the Dockerfile is in the root of your project
+                    // Kaniko executor konteynerını kullanarak Docker imajını build edin ve push edin
                     sh """
-docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v \$(pwd):/workspace gcr.io/kaniko-project/executor:latest --context /workspace --dockerfile /workspace/Dockerfile --destination ${REGISTRY_URL}/${DOCKER_IMAGE}:${IMAGE_TAG}
-"""
+                    /kaniko/executor --context ${WORKSPACE} \
+                                     --dockerfile ${WORKSPACE}/Dockerfile \
+                                     --destination ${REGISTRY_URL}/${DOCKER_IMAGE}:${IMAGE_TAG}
+                    """
                 }
             }
         }
