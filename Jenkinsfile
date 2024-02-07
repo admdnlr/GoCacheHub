@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git credentialsId: env.GIT_CREDENTIALS_ID, url: 'https://github.com/admdnlr/GoCacheHub.git'
+                git credentialsId: env.GIT_CREDENTIALS_ID, url: 'https://github.com/admdnlr/GoCacheHub.git', branch: 'main'
             }
         }
         stage('Build Docker Image') {
