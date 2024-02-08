@@ -58,7 +58,7 @@ func main() {
 
 	// HTTP sunucusunu başlat ve router'ı kullan
 	log.Println("Starting server on :9090")
-	if err := http.ListenAndServe(":9090", r); err != nil {
+	if err := http.ListenAndServe(":9080", r); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
