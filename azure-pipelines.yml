@@ -1,0 +1,53 @@
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  dockerImage: 'gocachehub'
+  imageTag: '$(Build.BuildId)' # veya dinamik bir tag, örneğin '$(Build.BuildId)'
+  registryUrl: 'registry.digitalocean.com/admdnlr'
+  registryCredentialsId: 'registry' # Azure DevOps Service Connection ID
+  gitCredentialsId: 'GoCacheHub' # Azure DevOps Service Connection ID for Git
+
+stages:
+- stage: BuildAndPush
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - task: Docker@2
+      inputs:
+        command: 'login'
+        containerRegistry: $(registryCredentialsId)
+    - task: Docker@2
+      inputs:
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(dockerImage):$(imageTag)
+        buildContext: '.'
+    - task: Docker@2
+      inputs:
+        command: 'push'
+        repository: $(registryUrl)/$(dockerImage)
+        tags: |
+          $(imageTag)
+
+- stage: UpdateGitRepo
+  jobs:
+  - job: UpdateRepo
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - script: |
+        sed -i 's|$(registryUrl)/$(dockerImage):.*|$(registryUrl)/$(dockerImage):$(imageTag)|g' kubernetes/deployment.yml
+        git config user.name 'azureDevOps'
+        git config user.email 'azureDevOps@example.com'
+        git commit -am "Update image tag to $(imageTag)"
+        git push
+      displayName: 'Update Git Repository'
