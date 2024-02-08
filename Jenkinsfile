@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'registry-cred', passwordVariable: 'REGISTRY_PASS', usernameVariable: 'REGISTRY_USER')]) {
-                        sh "echo '$REGISTRY_PASS' | docker login ${DOCKER_REGISTRY} -u '$REGISTRY_USER' --password-stdin"
+                        sh "echo '$REGISTRY_PASS' | /usr/local/bin/docker login ${DOCKER_REGISTRY} -u '$REGISTRY_USER' --password-stdin"
                         sh "/usr/local/bin/docker push ${env.IMAGE_TAG}"
                     }   
                 }
