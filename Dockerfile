@@ -31,7 +31,7 @@ WORKDIR /
 COPY --from=build /GoCacheHub /GoCacheHub
 
 # Portu açın (uygulamanızın kullandığı porta göre değiştirin)
-EXPOSE 9090
+EXPOSE 9080
 
 # Uygulamanızı çalıştırın
 CMD ["/GoCacheHub"]

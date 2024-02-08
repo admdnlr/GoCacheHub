@@ -6,8 +6,8 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 9090
-    targetPort: 9090
+  - port: 9080
+    targetPort: 9080
     protocol: TCP
   selector:
     app: gocachehub
