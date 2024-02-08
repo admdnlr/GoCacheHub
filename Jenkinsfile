@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     // Kubernetes manifestindeki imaj versiyonunu güncelleme
-                    sh "sed -i 's|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' k8s/deployment.yaml"
+                    sh "sed -i 's|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' Deployment-Manifests/gocachehu-deployment.yaml"
                     sh "git add k8s/deployment.yaml"
                     sh "git commit -m 'Update image version to ${version}'"
                     sh "git push origin main"
@@ -39,7 +39,8 @@ pipeline {
     }
     post {
         always {
-            // Temizlik adımları, örneğin Docker image'ları silme
+            cleanWs()
+            echo 'Geçici dosyalar temizlendi.'
         }
     }
 }
