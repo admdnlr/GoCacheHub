@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: gocachehub
-        image: registry.digitalocean.com/admdnlr/gocachehub:latest
+        image: registry.digitalocean.com/admdnlr/gocachehub:v0.9-f346f79
         ports:
         - containerPort: 9090
       imagePullSecrets:
