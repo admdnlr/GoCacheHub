@@ -3,13 +3,14 @@ pipeline {
     environment {
         DOCKER_REGISTRY = 'registry.digitalocean.com/admdnlr'
         IMAGE_NAME = 'gocachehub'
+        version = '1.0.0'
     }
     stages {
         stage('Build') {
             steps {
                 script {
                     def commitId = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-                    def version = "v0.${env.BUILD_NUMBER}-${commitId}"
+                    version = "v0.${env.BUILD_NUMBER}-${commitId}"
                     env.IMAGE_TAG = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${version}"
                     sh "/usr/local/bin/docker build -t ${env.IMAGE_TAG} ."
                 }
