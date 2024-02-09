@@ -4,10 +4,11 @@ metadata:
   name: gocachehub-service
   namespace: go
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 9080
     targetPort: 9080
+    NodePort: 30008
     protocol: TCP
   selector:
     app: gocachehub
