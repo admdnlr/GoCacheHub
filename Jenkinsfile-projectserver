@@ -59,10 +59,10 @@ pipeline {
             cleanWs()
             echo 'Geçici dosyalar temizlendi ve işlem tamamlandı.'
         }
-        failure {
+        //failure {
             // Yalnızca işlem başarısız olduğunda çalışır
-            mail to: 'admin@example.com', subject: 'Pipeline Failure', body: 'Jenkins pipeline failed. Please check.'
-        }
+        //    mail to: 'admin@example.com', subject: 'Pipeline Failure', body: 'Jenkins pipeline failed. Please check.'
+        //}
     }
     
 }
