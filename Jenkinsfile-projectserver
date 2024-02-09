@@ -44,18 +44,24 @@ pipeline {
         stage('Update K8s Deployment') {
             steps {
                 script {
-
-                    git url: "https://github.com/admdnlr/GoCacheHub.git",
-                        credentialsId: 'github-cred',
-                        branch: main {
-                            sh "sed -i 's|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' Deployment-Manifests/gocachehub-deployment.yaml"
-                            sh "git add Deployment-Manifests/gocachehub-deployment.yaml" 
-                            sh "git commit -m 'Update image version to ${env.VERSION}'"
-                            sh "git push origin main"
-                        }
+                    // Git repository'sinden kodu çek
+                    git credentialsId: 'github-cred',
+                        url: 'https://github.com/admdnlr/GoCacheHub.git',
+                        branch: 'main'
+                    
+                    // Deployment dosyasını güncelle
+                    sh "sed -i 's|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' Deployment-Manifests/gocachehub-deployment.yaml"
+                    
+                    // Değişiklikleri commit et ve push et
+                    sh "git config user.email 'ademdnlr60@gmail.com'"
+                    sh "git config user.name 'admdnlr'"
+                    sh "git add Deployment-Manifests/gocachehub-deployment.yaml"
+                    sh "git commit -m 'Update image version to ${env.VERSION}'"
+                    sh "git push origin main"
                 }
             }
         }
+
     }
     post {
         always {
