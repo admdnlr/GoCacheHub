@@ -34,7 +34,7 @@ pipeline {
                     // Git işlemleri
                     sh 'git config user.email "ademdnlr60@gmail.com"'
                     sh 'git config user.name "admdnlr"'
-                    sh 'git commit -m "Update image version to ${env.VERSION}" --allow-empty'
+                    sh "git commit -m 'Update image version to ${env.VERSION}'"
                     // withCredentials bloğu içinde kimlik bilgileri ile git push işlemi
                     withCredentials([usernamePassword(credentialsId: 'github-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh 'git push https://${USERNAME}:${PASSWORD}@github.com/admdnlr/GoCacheHub.git main'
