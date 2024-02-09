@@ -44,11 +44,16 @@ pipeline {
         stage('Update K8s Deployment') {
             steps {
                 script {
-                    git branch: 'main', credentialsId: 'github-cred', url: 'https://github.com/admdnlr/GoCacheHub.git'
+
+                    git url: "https://github.com/admdnlr/GoCacheHub.git",
+                        credentialsId: 'github-cred',
+                        branch: main
+                    
+                    
                     sh "sed -i 's|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' Deployment-Manifests/gocachehub-deployment.yaml"
-                    git add "Deployment-Manifests/gocachehub-deployment.yaml"
-                    git commit -m 'Update image version to ${env.VERSION}'
-                    git push origin main
+                    sh "git add Deployment-Manifests/gocachehub-deployment.yaml" 
+                    sh "git commit -m 'Update image version to ${env.VERSION}'"
+                    sh "git push origin main"
                 }
             }
         }
