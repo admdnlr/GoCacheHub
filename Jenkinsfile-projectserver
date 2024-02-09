@@ -28,17 +28,12 @@ pipeline {
         stage('Update K8s Deployment') {
             steps {
                 script {
-                    // Kimlik bilgilerini kullanarak Git repository'sini checkout et
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github-cred', url: 'https://github.com/admdnlr/GoCacheHub.git']]])
+                    git branch: 'main', credentialsId: 'github-cred', url: 'https://github.com/admdnlr/GoCacheHub.git'
                     
-                    // Git işlemleri
-                    sh 'git config user.email "ademdnlr60@gmail.com"'
-                    sh 'git config user.name "admdnlr"'
+                    sh "sed -i 's|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' Deployment-Manifests/gocachehub-deployment.yaml"
+                    sh "git add Deployment-Manifests/gocachehub-deployment.yaml"
                     sh "git commit -m 'Update image version to ${env.VERSION}'"
-                    // withCredentials bloğu içinde kimlik bilgileri ile git push işlemi
-                    withCredentials([usernamePassword(credentialsId: 'github-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                        sh 'git push https://${USERNAME}:${PASSWORD}@github.com/admdnlr/GoCacheHub.git main'
-                    }
+                    sh "git push origin main"
                 }
             }
         }
