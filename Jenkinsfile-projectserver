@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     // Git repository'sinden kodu çek
-                    git credentialsId: 'github-cred',
+                    git credentialsId: 'github-token',
                         url: 'https://github.com/admdnlr/GoCacheHub.git',
                         branch: 'main'
                     
@@ -57,7 +57,11 @@ pipeline {
                     //sh "git config user.name 'admdnlr'"
                     sh "git add Deployment-Manifests/gocachehub-deployment.yaml"
                     sh "git commit -m 'Update image version to ${env.VERSION}'"
-                    sh "git push origin main"
+
+                    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                        sh 'git config --global credential.helper "!f() { echo username=admdnlr; echo password=$GITHUB_TOKEN; }; f"'
+                        sh 'git push https://github.com/admdnlr/GoCacheHub.git main'
+                    }
                 }
             }
         }
