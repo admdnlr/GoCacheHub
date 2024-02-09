@@ -53,8 +53,8 @@ pipeline {
                     sh "sed -i 's|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' Deployment-Manifests/gocachehub-deployment.yaml"
                     
                     // Değişiklikleri commit et ve push et
-                    sh "git config user.email 'ademdnlr60@gmail.com'"
-                    sh "git config user.name 'admdnlr'"
+                    //sh "git config user.email 'ademdnlr60@gmail.com'"
+                    //sh "git config user.name 'admdnlr'"
                     sh "git add Deployment-Manifests/gocachehub-deployment.yaml"
                     sh "git commit -m 'Update image version to ${env.VERSION}'"
                     sh "git push origin main"
