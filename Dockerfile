@@ -1,4 +1,3 @@
-# Go uygulaması için Dockerfile örneği
 
 # Derleme aşaması için Go derleyici içeren resmi bir base image kullanın
 FROM golang:1.21.6-alpine AS build
