@@ -1,4 +1,4 @@
-// Dosya: cmd/GoCacheHub/main.go
+//author: ademdinler
 
 package main
 
