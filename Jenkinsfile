@@ -29,8 +29,14 @@ pipeline {
             steps {
                 script {
                     git branch: 'main', credentialsId: 'github-cred', url: 'https://github.com/admdnlr/GoCacheHub.git'
+
+                    if [ -f Deployment-Manifests/gocachehub-deployment.yaml ]; then
+                        sed -i 's|image: registry.digitalocean.com/admdnlr/gocachehub:.*|image: registry.digitalocean.com/admdnlr/gocachehub:${env.IMAGE_TAG}|' Deployment-Manifests/gocachehub-deployment.yaml
+                    else
+                        echo "Dosya bulunamadı: Deployment-Manifests/gocachehub-deployment.yaml"
+                    fi
                     
-                    sh "sed -i '' 's|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' Deployment-Manifests/gocachehub-deployment.yaml"
+                    
                     sh "git add Deployment-Manifests/gocachehub-deployment.yaml"
                     sh "git commit -m 'Update image version to ${env.VERSION}'"
                     sh "git push origin main"
