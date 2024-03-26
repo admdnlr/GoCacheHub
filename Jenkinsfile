@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     def commitId = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-                    env.VERSION = "v0.${env.BUILD_NUMBER}-${commitId}"
+                    env.VERSION = "v0.${env.BUILD_NUMBER}-a${commitId}"
                     env.IMAGE_TAG = "${DOCKER_REGISTRY}/${IMAGE_NAME}:${env.VERSION}"
                     sh "/usr/local/bin/docker build -t ${env.IMAGE_TAG} ."
                 }
